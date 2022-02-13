@@ -1,7 +1,6 @@
 /**
  * Test checksum of personal number
  * @param {string} personnr 
- * @returns {Boolean}
  */
 function checksum(personnr) {
     var mult;
@@ -18,18 +17,17 @@ function checksum(personnr) {
     accumulator = 10 - (accumulator % 10)
 
     if (accumulator != personnr.charAt(9)) {
-        throw 'checksumException';
+        throw 'checksumException: checksum does not match last digit.';
     }
 }
 
 /**
  * Test if personal number is null or empty string
  * @param {string} number 
- * @returns {Boolean}
  */
 function notNullOrEmpty(number) {
     if (!number) {
-        throw 'nullException';
+        throw 'nullException: number is undefined, null, or empty.';
     }
 }
 
@@ -48,11 +46,10 @@ function notNullOrEmpty(number) {
 /**
  * Tests that shortened personal number is of correct length
  * @param {string} number 
- * @returns {Boolean}
  */
 function rightLength(number) {
     if (number.length !== 10) {
-        throw 'lengthException';
+        throw 'lengthException: number is not of correct length.';
     }
 }
 
@@ -88,10 +85,12 @@ function isPersonalNumber(inputNumber) {
     try {
         notNullOrEmpty(inputNumber);
     } catch (error) {
-        console.log(error, inputNumber);
+        let date = new Date(Date.now());
+        console.log(`${date.toGMTString()} - ${error} - Raw input: ${inputNumber}`);
         return false
     }
 
+    // input sanitation
     personnr = removeNonNumerics(inputNumber);
     personnr = cropToRightSize(personnr);
 
@@ -100,20 +99,22 @@ function isPersonalNumber(inputNumber) {
         rightLength(personnr);
         checksum(personnr);
     } catch (error) {
-        console.log(error, inputNumber, personnr);
+        let date = new Date(Date.now());
+        console.log(`${date.toGMTString()} - ${error} - Raw input: ${inputNumber}. - Interprated as: ${personnr}`);
         return false;
     }
     return true;
 }
 
+let numbers = [
+    '197802022389',
+    '197802022389a',
+    null,
+    '',
+    '123',
+    '197802022388',
+];
 
-// let personnr = '197802022389';
-// let personnr = '197802022389a';
-// let personnr;
-// let personnr = null;
-// let personnr = '';
-// let personnr = '123'
-// let personnr = '197802022388';
-
-
-console.log(isPersonalNumber(personnr));
+for (let index = 0; index < numbers.length; index++) {
+    console.log(isPersonalNumber(numbers[index]));
+}
