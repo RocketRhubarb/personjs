@@ -112,15 +112,11 @@ function isPersonalNumber(inputNumber) {
     return true;
 }
 
-let numbers = [
-    '197802022389',
-    '197802022389a',
-    null,
-    '',
-    '123',
-    '197802022388',
-];
-
-for (let index = 0; index < numbers.length; index++) {
-    console.log(isPersonalNumber(numbers[index]));
+if (require.main === module) {
+    let number = process.argv[2];
+    if (isPersonalNumber(process.argv[2])) {
+        console.log(`${number} is valid.`)
+    } else {
+        console.log(`${number} is invalid.`)
+    }
 }
