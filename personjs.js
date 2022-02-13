@@ -35,7 +35,6 @@ function notNullOrEmpty(number) {
 // /**
 //  * Test if personal number is empty string
 //  * @param {string} personnr 
-//  * @returns {Boolean}
 //  */
 // function notEmpty(number) {
 //     if (number === '') {
