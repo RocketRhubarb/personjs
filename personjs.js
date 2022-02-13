@@ -81,11 +81,17 @@ function removeNonNumerics(personnr) {
  * @returns {Boolean}
  */
 function isPersonalNumber(inputNumber) {
+    // error logger
+    var fs = require('fs');
+    const util = require('util');
+    var log_file_err = fs.createWriteStream(__dirname + '/error.log', { flags: 'a' });
+
+    // test if undefined, null, or empty
     try {
         notNullOrEmpty(inputNumber);
     } catch (error) {
         let date = new Date(Date.now());
-        console.log(`${date.toGMTString()} - ${error} - Raw input: ${inputNumber}`);
+        log_file_err.write(util.format(`${date.toGMTString()} - ${error} - Raw input: ${inputNumber}`) + '\n');
         return false
     }
 
@@ -93,13 +99,14 @@ function isPersonalNumber(inputNumber) {
     personnr = removeNonNumerics(inputNumber);
     personnr = cropToRightSize(personnr);
 
+    // logical error tests
     try {
         // Add more tests here
         rightLength(personnr);
         checksum(personnr);
     } catch (error) {
         let date = new Date(Date.now());
-        console.log(`${date.toGMTString()} - ${error} - Raw input: ${inputNumber}. - Interprated as: ${personnr}`);
+        log_file_err.write(util.format(`${date.toGMTString()} - ${error} - Raw input: ${inputNumber}. - Interprated as: ${personnr}`) + '\n');
         return false;
     }
     return true;
