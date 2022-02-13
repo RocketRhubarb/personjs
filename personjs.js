@@ -14,7 +14,7 @@ function checksum(personnr) {
         accumulator = accumulator + tmp;
     }
 
-    accumulator = 10 - (accumulator % 10)
+    accumulator = 10 - (accumulator % 10);
 
     if (accumulator != personnr.charAt(9)) {
         throw 'checksumException: checksum does not match last digit.';
@@ -92,7 +92,7 @@ function isPersonalNumber(inputNumber) {
     } catch (error) {
         let date = new Date(Date.now());
         log_file_err.write(util.format(`${date.toGMTString()} - ${error} - Raw input: ${inputNumber}`) + '\n');
-        return false
+        return false;
     }
 
     // input sanitation
@@ -115,8 +115,8 @@ function isPersonalNumber(inputNumber) {
 if (require.main === module) {
     let number = process.argv[2];
     if (isPersonalNumber(process.argv[2])) {
-        console.log(`${number} is valid.`)
+        console.log(`${number} is valid.`);
     } else {
-        console.log(`${number} is invalid.`)
+        console.log(`${number} is invalid.`);
     }
 }
